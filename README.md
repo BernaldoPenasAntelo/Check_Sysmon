@@ -1,5 +1,5 @@
 
-# Sysmon tester
+
 
 ```
   ___                               _____          _               
@@ -8,9 +8,9 @@
  |___/ \_, |/__/|_|_|_|\___/|_||_|   |_| \___|/__/ \__|\___||_|   
        |__/
        
-´´´
+```
 
-----
+# Sysmon tester
 
 
 Script developed in Powershell to test if Sysmon Installation was successful.
