@@ -6,6 +6,7 @@
        |__/
        
 ´´´
+
 # Sysmon tester
 
 Script developed in Powershell to test if Sysmon Installation was successful.
