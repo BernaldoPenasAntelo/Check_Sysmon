@@ -18,7 +18,7 @@
 
 Script developed in Powershell to test if Sysmon Installation was successful.
 
-I have found that some times Sysmon installations **FAIL** also I found that it's really anoying to check what's go wrong especially if one has no control over the machine's administration or the installation is embebed in other script or source.
+I have found that some times Sysmon installations **FAIL** also I found that it's really anoying to check what go wrong especially if one has no control over the machine's administration or the installation is embebed in other script or source.
 
 So i develop this simple Script to verify 3 things:
 
