@@ -1,38 +1,30 @@
 # Determine the windows installation path  
 foreach ($val in $env:path -split (";")) { if ($val -match 'Windows$') { $win_path=$val}}
-
 # Generate diverse paths that will be used during the scrript
 $temp_path="$win_path\Temp"
 $s32_path="$win_path\System32"
-
-# Remove old script logs
 if (Test-Path "$temp_path\sysmon_log.txt"){
-    Remove-Item $log
+    Remove-Item "$temp_path\sysmon_log.txt"
 }
-
-$log=New-Item -Path “$temp_path\sysmon_log.txt” -ItemType File
-
-
-
+$log=New-Item -Path "$temp_path\sysmon_log.txt" -ItemType File
+#Print the execution date in log file
+Get-Date >> $log
 # Execute Tests and save them to log
 # Test 1 - Verify that Sysmon64.exe was present in C:\\Windows\System32
 # Test 2 - Verify that SysmonDrv.sys (sysmon driver ) was present in C:\\Windows\System32
 # Test 3 - Verifty that sysmon Events where recorded in Sysmon/Operational
-
 # Test 1
-if (Test-Path "$win_path\Sysmon64.exe" -PathType Leaf) { 
-    echo "[Test 1] - Found C:\\Windows\Sysmon64.exe"| Add-Content $log
+if (Test-Path "$win_path\Sysmon*.exe" -PathType Leaf) { 
+    echo "[Test 1] - Found C:\\Windows\Sysmon*.exe"| Add-Content $log
  }  else { 
   echo "[Test 2] - Sysmon64.exe not found"| Add-Content $log 
  }
-
 # Test 2
 if (Test-Path "$win_path\SysmonDrv.sys" -PathType Leaf) { 
-    echo “[Test 2] - Found C:\\Windows\SysmonDrv.sys”| Add-Content $log
+    echo "[Test 2] - Found C:\\Windows\SysmonDrv.sys"| Add-Content $log
 } else  {
     echo "[Test 2] - SysmonDrv.sys not found"| Add-Content $log 
 }
-
 # Test 3
 $sysmonInstalled = 1
 try {
@@ -41,7 +33,14 @@ $result = Get-winevent -ListLog *Sysmon* -EA "Stop"
   $sysmonInstalled = 0
 }
 if ($sysmonInstalled) {
-    echo "[Test 3] - Sysmon logs has been created"| Add-Content $log
+    echo "[Test 3] - Sysmon Log Exist"| Add-Content $log
+    try {
+        Get-WinEvent -FilterHashtable @{logname="Microsoft-Windows-Sysmon/Operational";id=4} -ErrorAction Stop | Format-table TimeCreated,ID,Message  -AutoSize -Wrap >> $log
+        Get-WinEvent -FilterHashtable @{logname="Microsoft-Windows-Sysmon/Operational";id=255} -ErrorAction Stop | Format-table TimeCreated,ID,Message  -AutoSize -Wrap >> $log
+    }
+    catch [Exception] {
+        echo "[Test 3] - No Events with id=4 or id=255 found"| Add-Content $log
+    }
 } else {
-    echo "[Test 3] - Sysmon Logs NOT FOUND"| Add-Content $log
+    echo "[Test 3] - Syslog Log it's not present"| Add-Content $log
 }
