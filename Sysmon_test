@@ -12,7 +12,7 @@ Get-Date >> $log
 # Execute Tests and save them to log
 # Test 1 - Verify that Sysmon64.exe was present in C:\\Windows\System32
 # Test 2 - Verify that SysmonDrv.sys (sysmon driver ) was present in C:\\Windows\System32
-# Test 3 - Verifty that sysmon Events where recorded in Sysmon/Operational
+# Test 3 - Verifty that sysmon Events where recorded in Sysmon/Operational and event 4 and 255 gathering incase of error 
 # Test 1
 if (Test-Path "$win_path\Sysmon*.exe" -PathType Leaf) { 
     echo "[Test 1] - Found C:\\Windows\Sysmon*.exe"| Add-Content $log
