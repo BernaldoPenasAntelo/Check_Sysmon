@@ -28,4 +28,4 @@ So i develop this simple Script to verify 3 things:
 
 3.- Log appears available for regiter events, and event 4 and 255 gathering.
 
-This script generates a log in **C:\Windows\Temp** called **sysmon.log** with the results of the test
+>>This script generates a log in **C:\Windows\Temp** called **sysmon.log** with the results of the test
